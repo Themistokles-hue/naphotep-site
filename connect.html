@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Naphotep Publisher · Connect TikTok</title><link rel="stylesheet" href="style.css"></head><body><main>
+<h1>NAPHOTEP</h1><p class="sub">Publisher · creator login · <a href="index.html">Home</a></p>
+<p>Connect the Naphotep TikTok account so finished episodes can be sent to its TikTok inbox as drafts. Nothing is ever published automatically: every video is reviewed and posted inside TikTok.</p>
+<p>This app asks TikTok for:</p>
+<ul>
+  <li><strong>user.info.basic</strong>: to confirm which account is connected</li>
+  <li><strong>video.upload</strong>: to send finished videos to that account's inbox as drafts</li>
+</ul>
+<p><a class="btn" id="go" href="#">Connect TikTok account</a></p>
+<p id="missing" class="sub" hidden>Setup not finished: the app's client key hasn't been added to <code>config.js</code> yet.</p>
+<script src="config.js"></script>
+<script>
+  const key = window.NAPHOTEP_CLIENT_KEY;
+  const redirect = new URL("tiktok-callback.html", location.href).href;
+  if (!key) { document.getElementById("missing").hidden = false; document.getElementById("go").style.opacity = .4; }
+  document.getElementById("go").onclick = (e) => {
+    e.preventDefault();
+    if (!key) return;
+    const state = Math.random().toString(36).slice(2);
+    const q = new URLSearchParams({client_key: key, response_type: "code", scope: window.NAPHOTEP_SCOPES,
+                                   redirect_uri: redirect, state});
+    location.href = "https://www.tiktok.com/v2/auth/authorize/?" + q.toString();
+  };
+</script>
+</main></body></html>
