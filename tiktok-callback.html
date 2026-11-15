@@ -1,0 +1,23 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Naphotep Publisher · TikTok connected</title><link rel="stylesheet" href="style.css"></head><body><main>
+<h1>NAPHOTEP</h1><p class="sub">TikTok login</p>
+<div id="ok" hidden>
+  <p>Copy this code, then go back to GitHub and run the <strong>TikTok login</strong> workflow again with it. It expires in about 5 minutes.</p>
+  <div class="code" id="code"></div>
+  <button id="copy">Copy code</button>
+</div>
+<div id="err" hidden><p>TikTok didn't send a code: <span id="msg"></span>. Try the login link again.</p></div>
+<script>
+  const q = new URLSearchParams(location.search), code = q.get("code");
+  if (code) {
+    document.getElementById("ok").hidden = false;
+    document.getElementById("code").textContent = code;
+    document.getElementById("copy").onclick = async () => {
+      try { await navigator.clipboard.writeText(code); document.getElementById("copy").textContent = "Copied ✓"; } catch (e) {}
+    };
+  } else {
+    document.getElementById("err").hidden = false;
+    document.getElementById("msg").textContent = q.get("error_description") || q.get("error") || "no code in the link";
+  }
+</script>
+</main></body></html>
